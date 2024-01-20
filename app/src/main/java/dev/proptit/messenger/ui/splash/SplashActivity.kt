@@ -1,4 +1,4 @@
-package dev.proptit.messenger.ui
+package dev.proptit.messenger.ui.splash
 
 
 import android.content.Intent
@@ -24,6 +24,5 @@ class SplashActivity : ComponentActivity() {
             finish()
         }, 2000)
     }
-
 }
 
