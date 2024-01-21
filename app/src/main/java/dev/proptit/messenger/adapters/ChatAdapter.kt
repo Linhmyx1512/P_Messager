@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.Chat
 
-class ChatRecyclerViewAdapter(private val chats: List<Chat>) :
-    RecyclerView.Adapter<ChatRecyclerViewAdapter.ChatViewHolder>() {
+class ChatAdapter(private val chats: List<Chat>) :
+    RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
 
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

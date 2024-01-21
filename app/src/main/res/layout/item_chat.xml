@@ -14,31 +14,33 @@
         android:layout_height="wrap_content"
         android:src="@drawable/image_ps1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ellipsize="marquee"
         android:maxLines="1"
+        android:ellipsize="marquee"
+        android:layout_marginStart="8dp"
         android:text="Martin Randolph"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/empty_view"
         app:layout_constraintBottom_toTopOf="@id/message_container"
-        app:layout_constraintEnd_toStartOf="@id/icon_check_sent"
         app:layout_constraintStart_toEndOf="@id/image_avatar"
         app:layout_constraintTop_toTopOf="@id/image_avatar"
         app:layout_constraintVertical_chainStyle="packed" />
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/message_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/image_avatar"
-        app:layout_constraintEnd_toStartOf="@id/icon_check_sent"
+        app:layout_constraintEnd_toStartOf="@id/empty_view"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name">
 
@@ -46,9 +48,10 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            android:text="aaaaaaa"
             app:layout_constraintWidth_max="0dp"
             android:textColor="#808080" />
 
@@ -56,13 +59,21 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/message"
             android:ellipsize="none"
             android:maxLines="1"
             android:text="· 9:40 AM"
             android:textColor="#808080" />
-    </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/message_container"
+        app:layout_constraintEnd_toStartOf="@id/icon_check_sent"
+        app:layout_constraintTop_toTopOf="@id/name"
+        app:layout_constraintBottom_toBottomOf="@id/message_container"
+        app:layout_constraintWidth_percent="0.2"/>
 
     <ImageView
         android:id="@+id/icon_check_sent"
@@ -70,9 +81,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icon_unsent"
         app:layout_constraintBottom_toBottomOf="@id/image_avatar"
+        app:layout_constraintStart_toEndOf="@id/empty_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/message_container"
         app:layout_constraintTop_toTopOf="@id/image_avatar" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

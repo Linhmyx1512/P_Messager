@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.messenger.R
-import dev.proptit.messenger.adapters.ChatRecyclerViewAdapter
+import dev.proptit.messenger.adapters.ChatAdapter
+import dev.proptit.messenger.adapters.OnlineContactAdapter
 import dev.proptit.messenger.data.Chat
 
 class ChatsFragment : Fragment() {
 
     private lateinit var chats: List<Chat>
-    private lateinit var chatRecyclerViewAdapter: ChatRecyclerViewAdapter
+    private lateinit var chatAdapter: ChatAdapter
+    private lateinit var contactAdapter: OnlineContactAdapter
+
 
 
     override fun onCreateView(
@@ -26,8 +29,10 @@ class ChatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chats = initData()
-        chatRecyclerViewAdapter = ChatRecyclerViewAdapter(chats)
-        view.findViewById<RecyclerView>(R.id.recycler_view).adapter = chatRecyclerViewAdapter
+        chatAdapter = ChatAdapter(chats)
+        contactAdapter = OnlineContactAdapter(chats)
+        view.findViewById<RecyclerView>(R.id.recycler_view).adapter = chatAdapter
+        view.findViewById<RecyclerView>(R.id.recycler_view_ol_contact).adapter = contactAdapter
     }
 
     private fun initData(): List<Chat> {
