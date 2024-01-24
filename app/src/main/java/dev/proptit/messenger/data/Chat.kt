@@ -1,3 +1,13 @@
 package dev.proptit.messenger.data
 
-data class Chat(val name: String, val message: String, val time: String, val imageId: Int, val isSent: Boolean)
+import androidx.annotation.DrawableRes
+
+data class Chat(
+    val id: Int,
+    val name: String,
+    val message: String,
+    val time: String,
+    @DrawableRes val imageId:Int,
+    val isSent: Boolean
+)
+

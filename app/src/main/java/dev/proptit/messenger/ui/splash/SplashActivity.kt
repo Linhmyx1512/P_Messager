@@ -5,18 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-
 import androidx.activity.ComponentActivity
 import dev.proptit.messenger.MainActivity
-import dev.proptit.messenger.R
+import dev.proptit.messenger.databinding.ActivitySplashBinding
 
 
 class SplashActivity : ComponentActivity() {
 
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Handler to delay the transition to MainActivity
         Handler(Looper.getMainLooper()).postDelayed({
