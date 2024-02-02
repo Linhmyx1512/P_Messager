@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Material3.Light.NoActionBar">
+       >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+            android:name=".ui.MainActivity"
+            />
 
 
     </application>

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
-import dev.proptit.messenger.MainActivity
+import dev.proptit.messenger.ui.MainActivity
 import dev.proptit.messenger.databinding.ActivitySplashBinding
 
 

@@ -1,20 +1,21 @@
-package dev.proptit.messenger.adapters
+package dev.proptit.messenger.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import dev.proptit.messenger.data.Chat
+import com.bumptech.glide.Glide
+import dev.proptit.messenger.data.chat.Contact
 import dev.proptit.messenger.databinding.ItemOnlineContactBinding
 
-class OnlineContactAdapter(private val contacts: List<Chat>) :
+class OnlineContactAdapter(private val contacts: List<Contact>) :
     RecyclerView.Adapter<OnlineContactAdapter.ContactViewHolder>() {
 
-    class ContactViewHolder(private val binding: ItemOnlineContactBinding) :
+    inner class ContactViewHolder(private val binding: ItemOnlineContactBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(chat: Chat) {
+        fun bind(contact: Contact) {
             binding.apply {
-                avtContact.setImageResource(chat.imageId)
-                nameContact.text = chat.name
+                Glide.with(binding.root).load(contact.imageId).into(binding.avtContact)
+                nameContact.text = contact.name
             }
         }
     }
