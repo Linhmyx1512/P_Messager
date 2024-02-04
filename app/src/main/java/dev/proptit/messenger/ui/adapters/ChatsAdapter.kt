@@ -1,5 +1,6 @@
 package dev.proptit.messenger.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,16 +11,16 @@ import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.databinding.ItemChatBinding
 
 class ChatsAdapter(
-    private val onItemClick: (idReceive: Int) -> Unit
+    private val conversations: MutableList<Pair<Contact, Message>>,
+    private val onItemClick: (idContact: Int) -> Unit
 ) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
-    private var conversationList = listOf<Contact>()
-    private var messageList = listOf<Message>()
    inner class ChatViewHolder(private val binding: ItemChatBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(contact: Contact) {
+        fun bind(contact: Contact, lastMessage: Message?, onItemClick: (idReceive: Int) -> Unit) {
             binding.apply {
                 name.text = contact.name
-//                message.text = .message
+                message.text = lastMessage?.message ?: " "
+                time.text = lastMessage?.time.toString()
                 // set image use glide
                 Glide.with(binding.root).load(contact.imageId).into(binding.imageAvatar)
                 Glide.with(binding.root).load(if (contact.isSent) R.drawable.icon_sent else R.drawable.icon_unsent)
@@ -42,8 +43,16 @@ class ChatsAdapter(
         )
     }
 
-    override fun getItemCount(): Int = conversationList.size
+    override fun getItemCount(): Int = conversations.size
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.bind(conversationList[position])
+        val chatData =  conversations[position]
+        holder.bind(chatData.first, chatData.second, onItemClick)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(newConversations: List<Pair<Contact, Message>>) {
+        conversations.clear()
+        conversations.addAll(newConversations)
+        notifyDataSetChanged()
     }
 }

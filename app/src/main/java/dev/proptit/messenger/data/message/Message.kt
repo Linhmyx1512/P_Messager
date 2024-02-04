@@ -10,4 +10,5 @@ data class Message(
     val idSend: Int,
     val idReceive: Int,
     val message: String,
+    val time: Long = System.currentTimeMillis()
 )

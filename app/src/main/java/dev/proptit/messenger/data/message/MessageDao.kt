@@ -16,9 +16,10 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE idReceive = :idReceive")
     suspend fun getMessageByReceiveId(idReceive: Int): List<Message>
 
+    @Query("SELECT * FROM message WHERE idSend = :idSend")
+    suspend fun getMessageBySendId(idSend: Int): List<Message>
+
     @Query("SELECT * FROM MESSAGE WHERE idReceive = :contactId OR idSend = :contactId")
     suspend fun getMessageByContactId(contactId: Int): List<Message>
 
-    @Query("SELECT * FROM message")
-    suspend fun getAllMessage(): List<Message>
 }

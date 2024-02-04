@@ -2,12 +2,16 @@ package dev.proptit.messenger.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dev.proptit.messenger.MyApp
 import dev.proptit.messenger.R
+import dev.proptit.messenger.data.chat.Contact
 import dev.proptit.messenger.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +23,29 @@ class MainActivity : AppCompatActivity() {
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         navigationView = mainBinding.bottomNav
         setContentView(mainBinding.root)
-
+        initFakeData()
         navController = findNavController(R.id.navHostFragment)
-        navigationView.setupWithNavController(navController)    }
+        navigationView.setupWithNavController(navController)
+    }
+
+    private fun initFakeData() {
+        lifecycleScope.launch {
+            MyApp.getInstance().database.apply {
+                contactDao().apply {
+                    addContact(
+                        Contact(id = 1, "Martin Randolph", R.drawable.image_ps1, false)
+                    )
+                    addContact(
+                        Contact(id = 2, "Andrew Parker", R.drawable.image_ps2, true)
+                    )
+                    addContact(
+                        Contact(id = 3, "Karen Castillo", R.drawable.image_ps3, false)
+                    )
+                    addContact(
+                        Contact(id = 4, "Maisy Humphrey", R.drawable.image_ps4, true)
+                    )
+                }
+            }
+        }
+    }
 }
