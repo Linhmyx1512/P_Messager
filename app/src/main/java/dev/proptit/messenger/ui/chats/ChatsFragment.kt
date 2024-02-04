@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.chat.ContactRepository
 import dev.proptit.messenger.data.message.MessageRepository
@@ -45,17 +45,7 @@ class ChatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        chatsAdapter = ChatsAdapter (mutableListOf()){
-            Navigation.findNavController(view)
-                .navigate(R.id.action_chatsFragment_to_chatFragment)
-        }
-        binding.recyclerView.adapter = chatsAdapter
-
-//        onlineContactAdapter = OnlineContactAdapter(contacts)
-//        binding.recyclerViewOlContact = onlineContactAdapter
-
+        setupAdapter()
         observeData()
     }
 
@@ -63,13 +53,30 @@ class ChatsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 chatsViewModel.setupData()
+
                 chatsViewModel.conversationList.observe(viewLifecycleOwner){
                     chatsAdapter.submitList(it.map {chatData ->
                         chatData.first to chatData.second.last()
                     })
                 }
+                chatsViewModel.contactList.observe(viewLifecycleOwner){
+                    onlineContactAdapter.submitList(it)
+                }
             }
         }
+    }
+
+    private fun setupAdapter() {
+        chatsAdapter = ChatsAdapter (mutableListOf()){
+            findNavController().navigate(
+                R.id.action_chatsFragment_to_chatFragment,
+            )
+        }
+        binding.recyclerView.adapter = chatsAdapter
+
+        onlineContactAdapter = OnlineContactAdapter(mutableListOf())
+        binding.recyclerViewOlContact.adapter = onlineContactAdapter
+
     }
 
     override fun onDestroyView() {
