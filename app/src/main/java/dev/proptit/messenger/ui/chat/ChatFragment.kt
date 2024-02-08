@@ -35,13 +35,6 @@ class ChatFragment : Fragment() {
         }
     )
 
-    companion object {
-        private var idData : Int = 0
-        fun transmitData(data: Int) {
-            idData = data
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +45,7 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idContact = arguments?.getInt("idContact") ?: 0
         observeData()
         setupBottomNav()
         setupAdapter()
@@ -64,8 +58,6 @@ class ChatFragment : Fragment() {
     }
 
     private fun observeData() {
-        idContact = idData
-
         chatViewModel.apply{
             getContactById(idContact)
             getConversationByIdContact(idContact)
@@ -77,7 +69,7 @@ class ChatFragment : Fragment() {
 
         chatViewModel.curConversation.observe(viewLifecycleOwner) {
             messageAdapter.submitList(it)
-            Log.d("ChatFragment", "observeData: $it")
+            Log.d("ChatFragment", "observeData: ${it.size}")
         }
     }
 

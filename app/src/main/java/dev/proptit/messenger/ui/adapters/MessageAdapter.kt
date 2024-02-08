@@ -1,6 +1,7 @@
 package dev.proptit.messenger.ui.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ class MessageAdapter(
         messages.clear()
         messages.addAll(newMessages)
         notifyDataSetChanged()
+        Log.d("MessageAdapter", "submitList: ${messages.size}")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {

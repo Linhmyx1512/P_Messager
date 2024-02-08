@@ -49,16 +49,16 @@ class MainActivity : AppCompatActivity() {
 
                 messageDao().apply {
                     addMessage(
-                        Message(0, 1, 0, "Hello")
+                        Message(id = 1, 1, 0, "Hello")
                     )
                     addMessage(
-                        Message(0, 2, 0, "Hi")
+                        Message(id = 2, 2, 0, "Hi")
                     )
                     addMessage(
-                        Message(0, 3, 0, "Hey")
+                        Message(id = 3, 3, 0, "Hey")
                     )
                     addMessage(
-                        Message(0, 4, 0, "What's up bro")
+                        Message(id = 4, 4, 0, "What's up bro")
                     )
                 }
             }

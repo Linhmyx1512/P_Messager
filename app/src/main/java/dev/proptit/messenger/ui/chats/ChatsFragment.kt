@@ -68,10 +68,13 @@ class ChatsFragment : Fragment() {
     }
 
     private fun handleOpenChat(idContact:Int){
+        val bundle = Bundle()
+        bundle.putInt("idContact", idContact)
+        val fragment = ChatFragment()
+        fragment.arguments = bundle
         findNavController().navigate(
             R.id.action_chatsFragment_to_chatFragment,
         )
-        ChatFragment.transmitData(idContact)
     }
 
     private fun setupAdapter() {
