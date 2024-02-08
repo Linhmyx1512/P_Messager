@@ -77,8 +77,8 @@
 
     <ImageView
         android:id="@+id/icon_check_sent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/icon_unsent"
         app:layout_constraintBottom_toBottomOf="@id/image_avatar"
         app:layout_constraintStart_toEndOf="@id/empty_view"

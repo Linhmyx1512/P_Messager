@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dev.proptit.messenger.data.chat.Contact
 import dev.proptit.messenger.data.chat.ContactRepository
@@ -13,7 +12,7 @@ import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.setup.Keys
 import kotlinx.coroutines.launch
 
-class ChatsViewModel(
+class MyViewModel(
     private val contactRepository: ContactRepository,
     private val messageRepository: MessageRepository
 ) : ViewModel() {
@@ -22,10 +21,17 @@ class ChatsViewModel(
     val conversationList: LiveData<List<Pair<Contact, List<Message>>>>
         get() = _conversationList
 
+    private val _contactList = MutableLiveData<List<Contact>>()
     val contactList: LiveData<List<Contact>>
-        get() = _conversationList.map {
-            it.map { chatData -> chatData.first}
-        }
+        get() = _contactList
+
+    private val _curContact = MutableLiveData<Contact>()
+    val curContact : LiveData<Contact>
+        get() = _curContact
+    private val _curConversation = MutableLiveData<List<Message>>()
+    val curConversation : LiveData<List<Message>>
+        get() = _curConversation
+
 
 
     fun setupData() {
@@ -46,7 +52,15 @@ class ChatsViewModel(
                 val contact = contactRepository.getContactById(idContact)
                 conversations.add(contact to messages.sortedBy { it.time })
             }
+            getAllContact()
             _conversationList.postValue(conversations)
+        }
+    }
+
+    fun getConversationByIdContact(id: Int) {
+        viewModelScope.launch {
+            val messages = messageRepository.getMessageByContactId(id)
+            _curConversation.postValue(messages)
         }
     }
 
@@ -68,21 +82,31 @@ class ChatsViewModel(
         }
     }
 
+    fun getContactById(id: Int) {
+        viewModelScope.launch {
+            _curContact.postValue(contactRepository.getContactById(id))
+        }
+    }
+
 
     // contact
-
+    private fun getAllContact() {
+        viewModelScope.launch {
+            _contactList.postValue(contactRepository.getAllContact())
+        }
+    }
 
 
 }
 
-class ChatsViewModelFactory(
+class MyViewModelFactory(
     private val contactRepository: ContactRepository,
     private val messageRepository: MessageRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ChatsViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ChatsViewModel(
+            return MyViewModel(
                 contactRepository, messageRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

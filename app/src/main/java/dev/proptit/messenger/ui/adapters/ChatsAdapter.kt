@@ -25,7 +25,6 @@ class ChatsAdapter(
                 Glide.with(binding.root).load(contact.imageId).into(binding.imageAvatar)
                 Glide.with(binding.root).load(if (contact.isSent) R.drawable.icon_sent else R.drawable.icon_unsent)
                     .into(binding.iconCheckSent)
-
                 root.setOnClickListener {
                     onItemClick(contact.id)
                 }

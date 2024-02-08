@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.proptit.messenger.MyApp
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.chat.Contact
+import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -43,6 +44,21 @@ class MainActivity : AppCompatActivity() {
                     )
                     addContact(
                         Contact(id = 4, "Maisy Humphrey", R.drawable.image_ps4, true)
+                    )
+                }
+
+                messageDao().apply {
+                    addMessage(
+                        Message(0, 1, 0, "Hello")
+                    )
+                    addMessage(
+                        Message(0, 2, 0, "Hi")
+                    )
+                    addMessage(
+                        Message(0, 3, 0, "Hey")
+                    )
+                    addMessage(
+                        Message(0, 4, 0, "What's up bro")
                     )
                 }
             }

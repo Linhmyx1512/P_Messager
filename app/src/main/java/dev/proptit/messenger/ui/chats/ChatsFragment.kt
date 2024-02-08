@@ -14,10 +14,11 @@ import dev.proptit.messenger.R
 import dev.proptit.messenger.data.chat.ContactRepository
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatsBinding
-import dev.proptit.messenger.ui.ChatsViewModel
-import dev.proptit.messenger.ui.ChatsViewModelFactory
+import dev.proptit.messenger.ui.MyViewModel
+import dev.proptit.messenger.ui.MyViewModelFactory
 import dev.proptit.messenger.ui.adapters.ChatsAdapter
 import dev.proptit.messenger.ui.adapters.OnlineContactAdapter
+import dev.proptit.messenger.ui.chat.ChatFragment
 import kotlinx.coroutines.launch
 
 class ChatsFragment : Fragment() {
@@ -26,9 +27,9 @@ class ChatsFragment : Fragment() {
     private lateinit var onlineContactAdapter: OnlineContactAdapter
     private var _binding: FragmentChatsBinding? = null
     private val binding get() = _binding!!
-    private val chatsViewModel: ChatsViewModel by viewModels(
+    private val chatsViewModel: MyViewModel by viewModels(
         factoryProducer = {
-            ChatsViewModelFactory(
+            MyViewModelFactory(
                 ContactRepository(),
                 MessageRepository()
             )
@@ -45,8 +46,8 @@ class ChatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupAdapter()
         observeData()
+        setupAdapter()
     }
 
     private fun observeData() {
@@ -66,22 +67,25 @@ class ChatsFragment : Fragment() {
         }
     }
 
+    private fun handleOpenChat(idContact:Int){
+        findNavController().navigate(
+            R.id.action_chatsFragment_to_chatFragment,
+        )
+        ChatFragment.transmitData(idContact)
+    }
+
     private fun setupAdapter() {
         chatsAdapter = ChatsAdapter (mutableListOf()){
-            findNavController().navigate(
-                R.id.action_chatsFragment_to_chatFragment,
-            )
+            handleOpenChat(it)
         }
         binding.recyclerView.adapter = chatsAdapter
 
         onlineContactAdapter = OnlineContactAdapter(mutableListOf())
         binding.recyclerViewOlContact.adapter = onlineContactAdapter
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

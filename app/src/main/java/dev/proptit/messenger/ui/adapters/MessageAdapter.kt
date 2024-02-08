@@ -1,24 +1,27 @@
 package dev.proptit.messenger.ui.adapters
 
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.databinding.ItemMessageBinding
 
-class MessageAdapter :
-    RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
+class MessageAdapter(
+    private val messages: MutableList<Message>
+) :
+    RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
-    inner class MessageViewHolder(private val binding:ItemMessageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message){
-            if (message.idSend == 0) {
-                binding.apply {
+    inner class MessageViewHolder(private val binding: ItemMessageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message) {
+            binding.apply {
+                if (message.idSend == 0) {
                     myMessageContainer.visibility = View.VISIBLE
                     contactMessage.visibility = View.GONE
                     myMessage.text = message.message
-                }
-            } else {
-                binding.apply {
+                } else {
                     myMessageContainer.visibility = View.GONE
                     contactMessage.visibility = View.VISIBLE
                     contactMessage.text = message.message
@@ -27,15 +30,28 @@ class MessageAdapter :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(newMessages : List<Message>){
+        messages.clear()
+        messages.addAll(newMessages)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        TODO("Not yet implemented")
+        return MessageViewHolder(
+            ItemMessageBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return messages.size
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(messages[position])
     }
 }
