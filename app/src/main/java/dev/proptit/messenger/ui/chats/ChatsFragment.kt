@@ -18,7 +18,6 @@ import dev.proptit.messenger.ui.MyViewModel
 import dev.proptit.messenger.ui.MyViewModelFactory
 import dev.proptit.messenger.ui.adapters.ChatsAdapter
 import dev.proptit.messenger.ui.adapters.OnlineContactAdapter
-import dev.proptit.messenger.ui.chat.ChatFragment
 import kotlinx.coroutines.launch
 
 class ChatsFragment : Fragment() {
@@ -70,10 +69,9 @@ class ChatsFragment : Fragment() {
     private fun handleOpenChat(idContact:Int){
         val bundle = Bundle()
         bundle.putInt("idContact", idContact)
-        val fragment = ChatFragment()
-        fragment.arguments = bundle
         findNavController().navigate(
             R.id.action_chatsFragment_to_chatFragment,
+            bundle
         )
     }
 

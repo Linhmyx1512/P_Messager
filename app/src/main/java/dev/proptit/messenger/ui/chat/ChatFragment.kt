@@ -1,10 +1,10 @@
 package dev.proptit.messenger.ui.chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -13,8 +13,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.chat.Contact
 import dev.proptit.messenger.data.chat.ContactRepository
+import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatBinding
+import dev.proptit.messenger.setup.Keys
 import dev.proptit.messenger.ui.MyViewModel
 import dev.proptit.messenger.ui.MyViewModelFactory
 import dev.proptit.messenger.ui.adapters.MessageAdapter
@@ -52,12 +54,15 @@ class ChatFragment : Fragment() {
         setupOnclick()
     }
 
+
+
     private fun setupAdapter() {
         messageAdapter = MessageAdapter(mutableListOf())
         binding.chatRecyclerView.adapter = messageAdapter
     }
 
     private fun observeData() {
+
         chatViewModel.apply{
             getContactById(idContact)
             getConversationByIdContact(idContact)
@@ -69,7 +74,6 @@ class ChatFragment : Fragment() {
 
         chatViewModel.curConversation.observe(viewLifecycleOwner) {
             messageAdapter.submitList(it)
-            Log.d("ChatFragment", "observeData: ${it.size}")
         }
     }
 
@@ -79,8 +83,28 @@ class ChatFragment : Fragment() {
     }
 
     private fun setupOnclick() {
-        binding.iconBack.setOnClickListener{
-            Navigation.findNavController(requireView()).navigate(R.id.action_chatFragment_to_chatsFragment)
+        binding.apply {
+            iconBack.setOnClickListener{
+                Navigation.findNavController(requireView()).navigate(R.id.action_chatFragment_to_chatsFragment)
+            }
+            edtMessage.addTextChangedListener {
+                if (it.isNullOrBlank()) {
+                    actionsContainer.visibility = View.VISIBLE
+                    btnExpand.visibility = View.GONE
+                    btnLike.visibility = View.VISIBLE
+                    btnSend.visibility = View.GONE
+                } else {
+                    actionsContainer.visibility = View.GONE
+                    btnExpand.visibility = View.VISIBLE
+                    btnLike.visibility = View.GONE
+                    btnSend.visibility = View.VISIBLE
+                }
+            }
+            btnSend.setOnClickListener {
+                val message = Message(0, Keys.MY_ID, idContact, edtMessage.text.toString())
+                chatViewModel.addNewMessage(message)
+                edtMessage.text?.clear()
+            }
         }
     }
 

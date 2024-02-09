@@ -67,17 +67,11 @@ class MyViewModel(
     fun addNewMessage(message: Message) {
         viewModelScope.launch {
             if (messageRepository.addMessage(message) > 0) {
-                val tempList = _conversationList.value?.toMutableList() ?: mutableListOf()
-                val index = tempList.indexOfFirst { it.first.id == message.idReceive || it.first.id == message.idSend }
-                if (index != -1) {
-                    val (contact, list) = tempList[index]
-                    tempList[index] = contact to (list + message)
-                } else {
-                    val idContact = if (message.idSend == Keys.MY_ID) message.idReceive else message.idSend
-                    val contact = contactRepository.getContactById(idContact)
-                    tempList.add(contact to mutableListOf(message))
+                val tempList = _curConversation.value?.toMutableList()
+                tempList?.apply {
+                    add(message)
+                    _curConversation.postValue(this)
                 }
-                _conversationList.postValue(tempList)
             }
         }
     }
@@ -90,7 +84,7 @@ class MyViewModel(
 
 
     // contact
-    private fun getAllContact() {
+    fun getAllContact() {
         viewModelScope.launch {
             _contactList.postValue(contactRepository.getAllContact())
         }

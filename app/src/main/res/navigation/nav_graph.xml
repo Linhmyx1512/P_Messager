@@ -23,7 +23,11 @@
         android:id="@+id/peopleFragment"
         android:name="dev.proptit.messenger.ui.people.PeopleFragment"
         android:label="fragment_people"
-        tools:layout="@layout/fragment_people" />
+        tools:layout="@layout/fragment_people" >
+        <action
+            android:id="@+id/action_peopleFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="dev.proptit.messenger.ui.chat.ChatFragment"
