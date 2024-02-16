@@ -21,12 +21,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         navigationView = mainBinding.bottomNav
-        setContentView(mainBinding.root)
-        initFakeData()
         navController = findNavController(R.id.navHostFragment)
         navigationView.setupWithNavController(navController)
+        setContentView(mainBinding.root)
+        initFakeData()
+
     }
 
     private fun initFakeData() {
