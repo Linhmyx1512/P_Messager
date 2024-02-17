@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import dev.proptit.messenger.data.chat.Contact
-import dev.proptit.messenger.data.chat.ContactRepository
+import dev.proptit.messenger.data.contact.Contact
+import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.setup.Keys

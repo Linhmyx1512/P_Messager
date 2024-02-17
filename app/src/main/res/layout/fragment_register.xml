@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.account.RegisterFragment">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:text="Create new account"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/bg_rounded_edt"
+        app:boxBackgroundMode="none"
+        app:endIconMode="custom"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_input"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:hint="Your name"
+            android:inputType="text"
+            android:paddingTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_input_layout"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_rounded_edt"
+        app:boxBackgroundMode="none"
+        app:endIconMode="custom"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:hint="Mobile number or email"
+            android:inputType="text"
+            android:paddingTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+   <com.google.android.material.textfield.TextInputLayout
+       android:id="@+id/password_input_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/username_input_layout"
+       android:layout_marginTop="16dp"
+       android:background="@drawable/bg_rounded_edt"
+       app:boxBackgroundMode="none"
+       app:endIconMode="custom"
+       app:hintEnabled="false">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/password_input"
+          android:layout_width="match_parent"
+          android:layout_height="54dp"
+          android:hint="Password"
+          android:inputType="textPassword"
+          android:paddingTop="8dp"
+          android:textColor="@color/black"
+          android:textSize="16sp" />
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+   <com.google.android.material.textfield.TextInputLayout
+       android:id="@+id/cf_password_input_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/password_input_layout"
+       android:layout_marginTop="16dp"
+       android:background="@drawable/bg_rounded_edt"
+       app:boxBackgroundMode="none"
+       app:endIconMode="custom"
+       app:hintEnabled="false">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/cf_password_input"
+          android:layout_width="match_parent"
+          android:layout_height="54dp"
+          android:hint="Confirm your password"
+          android:inputType="textPassword"
+          android:paddingTop="8dp"
+          android:textColor="@color/black"
+          android:textSize="16sp" />
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/password_description"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_below="@id/cf_password_input_layout"/>
+
+   <com.google.android.material.button.MaterialButton
+       android:id="@+id/btn_register"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/cf_password_input_layout"
+       android:layout_marginTop="56dp"
+       android:backgroundTint="#0584FE"
+       app:cornerRadius="24dp"
+       android:text="Create"
+       android:textAllCaps="false"
+       android:textSize="16sp"/>
+
+
+</RelativeLayout>

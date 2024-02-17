@@ -1,4 +1,4 @@
-package dev.proptit.messenger.data.chat
+package dev.proptit.messenger.data.contact
 
 import dev.proptit.messenger.MyApp
 import kotlinx.coroutines.Dispatchers

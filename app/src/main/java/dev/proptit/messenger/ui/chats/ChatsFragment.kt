@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dev.proptit.messenger.R
-import dev.proptit.messenger.data.chat.ContactRepository
+import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatsBinding
 import dev.proptit.messenger.ui.MyViewModel

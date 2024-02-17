@@ -1,4 +1,4 @@
-package dev.proptit.messenger.data.chat
+package dev.proptit.messenger.data.contact
 
 import androidx.annotation.DrawableRes
 import androidx.room.Entity

@@ -9,7 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.proptit.messenger.MyApp
 import dev.proptit.messenger.R
-import dev.proptit.messenger.data.chat.Contact
+import dev.proptit.messenger.data.contact.Contact
 import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
@@ -23,10 +23,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
+
         navigationView = mainBinding.bottomNav
         navController = findNavController(R.id.navHostFragment)
         navigationView.setupWithNavController(navController)
-        setContentView(mainBinding.root)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment -> navigationView.visibility = BottomNavigationView.GONE
+                R.id.registerFragment -> navigationView.visibility = BottomNavigationView.GONE
+                else -> navigationView.visibility = BottomNavigationView.VISIBLE
+            }
+
+        }
         initFakeData()
 
     }

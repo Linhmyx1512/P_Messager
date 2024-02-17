@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import dev.proptit.messenger.data.chat.Contact
-import dev.proptit.messenger.data.chat.ContactDao
+import dev.proptit.messenger.data.contact.Contact
+import dev.proptit.messenger.data.contact.ContactDao
 import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.data.message.MessageDao
 

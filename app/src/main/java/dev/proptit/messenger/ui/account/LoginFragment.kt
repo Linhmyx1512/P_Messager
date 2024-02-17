@@ -1,11 +1,11 @@
-package dev.proptit.messenger.ui.login
+package dev.proptit.messenger.ui.account
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.fragment.findNavController
 import dev.proptit.messenger.R
 import dev.proptit.messenger.databinding.FragmentLoginBinding
 
@@ -14,7 +14,6 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bottomNav: BottomNavigationView
 
 
     override fun onCreateView(
@@ -27,17 +26,27 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomNav()
+        setOnclick()
     }
 
-    private fun setupBottomNav() {
-        bottomNav= requireActivity().findViewById(R.id.bottom_nav)
-        bottomNav.visibility = View.GONE
+    private fun setOnclick() {
+        binding.btnRegister.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_loginFragment_to_registerFragment
+            )
+        }
+        binding.btnLogin.setOnClickListener {
+            // handle check exist account
+
+            // exist
+            findNavController().navigate(
+                R.id.action_loginFragment_to_chatsFragment
+            )
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bottomNav.visibility = View.VISIBLE
         _binding = null
     }
 }
