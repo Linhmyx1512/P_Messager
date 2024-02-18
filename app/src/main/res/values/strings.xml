@@ -7,9 +7,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_empty">Please enter your name</string>
     <string name="username_empty">Please enter your mobile number or email</string>
+    <string name="not_exist_account">No account found. Create a new account?</string>
     <string name="password_empty">Please enter your password</string>
     <string name="cf_password_empty">Please Re-enter your password</string>
     <string name="cf_password_error">Please Re-enter the correct password</string>
+    <string name="login_error">Network request failed.</string>
     <string name="short_password">This password is too short. Create a longer password with at least 6 letters and numbers.</string>
     <string name="password_description">Create a password with at least 6 letters or numbers. It should be something others can’t guess.</string>
 </resources>
