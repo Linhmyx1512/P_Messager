@@ -1,78 +1,59 @@
 package dev.proptit.messenger.ui
 
+import android.content.Context
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dev.proptit.messenger.MyApp
 import dev.proptit.messenger.R
-import dev.proptit.messenger.data.contact.Contact
-import dev.proptit.messenger.data.message.Message
+import dev.proptit.messenger.data.contact.ContactRepository
+import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.ActivityMainBinding
-import kotlinx.coroutines.launch
+import dev.proptit.messenger.setup.Keys
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var navigationView: BottomNavigationView
     private lateinit var navController: NavController
+    private val mainViewModel: MainViewModel by viewModels(
+        factoryProducer = {
+            MainViewModelFactory(
+                ContactRepository(),
+                MessageRepository()
+            )
+        }
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
 
+        // get id account from intent
+        val intent = intent
+        val idAccount = intent.getIntExtra(Keys.ID_USER, -1)
+
+        // shared preferences
+        val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt(Keys.ID_MY_ACCOUNT, idAccount)
+        editor.apply()
+
+
+        mainViewModel.idAccount = idAccount
         navigationView = mainBinding.bottomNav
         navController = findNavController(R.id.navHostFragment)
         navigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> navigationView.visibility = BottomNavigationView.GONE
-                R.id.registerFragment -> navigationView.visibility = BottomNavigationView.GONE
+                R.id.chatFragment -> navigationView.visibility = BottomNavigationView.GONE
                 else -> navigationView.visibility = BottomNavigationView.VISIBLE
             }
-
-        }
-        initFakeData()
-
-    }
-
-    private fun initFakeData() {
-        lifecycleScope.launch {
-            MyApp.getInstance().database.apply {
-                contactDao().apply {
-                    addContact(
-                        Contact(id = 1, "Martin Randolph", R.drawable.image_ps1, false)
-                    )
-                    addContact(
-                        Contact(id = 2, "Andrew Parker", R.drawable.image_ps2, true)
-                    )
-                    addContact(
-                        Contact(id = 3, "Karen Castillo", R.drawable.image_ps3, false)
-                    )
-                    addContact(
-                        Contact(id = 4, "Maisy Humphrey", R.drawable.image_ps4, true)
-                    )
-                }
-
-                messageDao().apply {
-                    addMessage(
-                        Message(id = 1, 1, 0, "Hello")
-                    )
-                    addMessage(
-                        Message(id = 2, 2, 0, "Hi")
-                    )
-                    addMessage(
-                        Message(id = 3, 3, 0, "Hey")
-                    )
-                    addMessage(
-                        Message(id = 4, 4, 0, "What's up bro")
-                    )
-                }
-            }
         }
     }
+
 }

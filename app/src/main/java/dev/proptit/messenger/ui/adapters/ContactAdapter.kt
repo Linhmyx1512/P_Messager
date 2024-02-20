@@ -15,7 +15,7 @@ class ContactAdapter(
 
     inner class ContactViewHolder(private val binding: ItemContactBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(contact: Contact) {
-            Glide.with(binding.root).load(contact.imageId).into(binding.imageAvatar)
+            Glide.with(binding.root).load(contact.avatar).into(binding.imageAvatar)
             binding.name.text = contact.name
             binding.root.setOnClickListener {
                 onItemClick(contact.id)

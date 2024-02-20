@@ -9,7 +9,8 @@ import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.databinding.ItemMessageBinding
 
 class MessageAdapter(
-    private val messages: MutableList<Message>
+    private val messages: MutableList<Message>,
+    private val idUser: Int
 ) :
     RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
@@ -17,7 +18,7 @@ class MessageAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: Message) {
             binding.apply {
-                if (message.idSend == 0) {
+                if (message.idSendContact == idUser) {
                     myMessageContainer.visibility = View.VISIBLE
                     contactMessageContainer.visibility = View.GONE
                     myMessage.text = message.message

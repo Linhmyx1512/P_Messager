@@ -13,13 +13,13 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE id = :id")
     suspend fun getMessageById(id: Int): Message
 
-    @Query("SELECT * FROM message WHERE idReceive = :idReceive")
+    @Query("SELECT * FROM message WHERE idReceiveContact = :idReceive")
     suspend fun getMessageByReceiveId(idReceive: Int): List<Message>
 
-    @Query("SELECT * FROM message WHERE idSend = :idSend")
+    @Query("SELECT * FROM message WHERE idSendContact = :idSend")
     suspend fun getMessageBySendId(idSend: Int): List<Message>
 
-    @Query("SELECT * FROM MESSAGE WHERE idReceive = :contactId OR idSend = :contactId")
+    @Query("SELECT * FROM MESSAGE WHERE idReceiveContact = :contactId OR idSendContact = :contactId")
     suspend fun getMessageByContactId(contactId: Int): List<Message>
 
 }

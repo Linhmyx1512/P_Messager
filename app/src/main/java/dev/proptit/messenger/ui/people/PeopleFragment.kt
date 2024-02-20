@@ -11,8 +11,8 @@ import dev.proptit.messenger.R
 import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentPeopleBinding
-import dev.proptit.messenger.ui.MyViewModel
-import dev.proptit.messenger.ui.MyViewModelFactory
+import dev.proptit.messenger.ui.MainViewModel
+import dev.proptit.messenger.ui.MainViewModelFactory
 import dev.proptit.messenger.ui.adapters.ContactAdapter
 
 
@@ -21,9 +21,9 @@ class PeopleFragment : Fragment() {
     private var _binding: FragmentPeopleBinding? = null
     private lateinit var peopleAdapter: ContactAdapter
     private val binding get() = _binding!!
-    private val peopleViewModel: MyViewModel by viewModels(
+    private val peopleViewModel: MainViewModel by viewModels(
         factoryProducer = {
-            MyViewModelFactory(
+            MainViewModelFactory(
                 ContactRepository(),
                 MessageRepository()
             )
@@ -45,8 +45,7 @@ class PeopleFragment : Fragment() {
 
     private fun observeData() {
         peopleViewModel.apply {
-            getAllContact()
-            contactList.observe(viewLifecycleOwner) {
+            allContactList.observe(viewLifecycleOwner) {
                 peopleAdapter.submitList(it)
             }
         }

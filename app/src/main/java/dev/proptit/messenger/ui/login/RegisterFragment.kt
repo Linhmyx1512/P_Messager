@@ -1,5 +1,6 @@
-package dev.proptit.messenger.ui.account
+package dev.proptit.messenger.ui.login
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -9,17 +10,22 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.proptit.messenger.R
 import dev.proptit.messenger.databinding.FragmentRegisterBinding
+import dev.proptit.messenger.setup.Keys
+import dev.proptit.messenger.ui.LoginViewModel
+import dev.proptit.messenger.ui.MainActivity
 
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+    private val registerViewModel: LoginViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,29 +50,59 @@ class RegisterFragment : Fragment() {
                 }
                 val userName = usernameInput.text.toString()
                 if (userName.isEmpty()) {
-                    handleError(usernameInputLayout, usernameInput, getString(R.string.username_empty))
+                    handleError(
+                        usernameInputLayout,
+                        usernameInput,
+                        getString(R.string.username_empty)
+                    )
                     return@setOnClickListener
                 }
                 val password = passwordInput.text.toString()
                 if (password.isEmpty()) {
-                    handleError(passwordInputLayout, passwordInput, getString(R.string.password_empty))
+                    handleError(
+                        passwordInputLayout,
+                        passwordInput,
+                        getString(R.string.password_empty)
+                    )
                     return@setOnClickListener
                 } else if (password.length < 6) {
-                    handleError(passwordInputLayout, passwordInput, getString(R.string.short_password))
+                    handleError(
+                        passwordInputLayout,
+                        passwordInput,
+                        getString(R.string.short_password)
+                    )
                     return@setOnClickListener
                 }
                 val confirmPassword = cfPasswordInput.text.toString()
                 if (confirmPassword.isEmpty()) {
-                    handleError(cfPasswordInputLayout, cfPasswordInput, getString(R.string.cf_password_empty))
+                    handleError(
+                        cfPasswordInputLayout,
+                        cfPasswordInput,
+                        getString(R.string.cf_password_empty)
+                    )
                     return@setOnClickListener
                 } else if (confirmPassword != password) {
-                    handleError(cfPasswordInputLayout, cfPasswordInput, getString(R.string.cf_password_error))
+                    handleError(
+                        cfPasswordInputLayout,
+                        cfPasswordInput,
+                        getString(R.string.cf_password_error)
+                    )
                     return@setOnClickListener
                 }
+                registerViewModel.handleRegister(name, userName, password,{
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.putExtra(Keys.ID_USER, it)
+                    startActivity(intent)
+                }, {
+                    binding.tvDescription.apply {
+                        text = it
+                        setTextColor(Color.RED)
+                    }
+                })
             }
-            findNavController().navigate(R.id.action_registerFragment_to_chatsFragment)
         }
     }
+
 
     private fun handleError(
         textInputLayout: TextInputLayout,

@@ -22,9 +22,11 @@ class ChatsAdapter(
                 message.text = lastMessage?.message ?: " "
                 time.text = lastMessage?.time.toString()
                 // set image use glide
-                Glide.with(binding.root).load(contact.imageId).into(binding.imageAvatar)
-                Glide.with(binding.root).load(if (contact.isSent) R.drawable.icon_sent else R.drawable.icon_unsent)
+                Glide.with(binding.root).load(contact.avatar).into(binding.imageAvatar)
+
+                Glide.with(binding.root).load(R.drawable.icon_sent)
                     .into(binding.iconCheckSent)
+
                 root.setOnClickListener {
                     onItemClick(contact.id)
                 }

@@ -1,6 +1,7 @@
 package dev.proptit.messenger.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,28 +10,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.contact.Contact
 import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.Message
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatBinding
-import dev.proptit.messenger.setup.Keys
-import dev.proptit.messenger.ui.MyViewModel
-import dev.proptit.messenger.ui.MyViewModelFactory
+import dev.proptit.messenger.ui.MainViewModel
+import dev.proptit.messenger.ui.MainViewModelFactory
 import dev.proptit.messenger.ui.adapters.MessageAdapter
 
 class ChatFragment : Fragment() {
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bottomNav: BottomNavigationView
     private var idContact: Int = -1
     private lateinit var messageAdapter: MessageAdapter
 
-    private val chatViewModel: MyViewModel by viewModels(
+    private val chatViewModel: MainViewModel by viewModels(
         factoryProducer = {
-            MyViewModelFactory(
+            MainViewModelFactory(
                 ContactRepository(),
                 MessageRepository()
             )
@@ -48,8 +46,8 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idContact = arguments?.getInt("idContact") ?: 0
+        Log.d("ChatFragment", "idContact: $idContact")
         observeData()
-        setupBottomNav()
         setupAdapter()
         setupOnclick()
     }
@@ -57,16 +55,13 @@ class ChatFragment : Fragment() {
 
 
     private fun setupAdapter() {
-        messageAdapter = MessageAdapter(mutableListOf())
+        messageAdapter = MessageAdapter(mutableListOf(), chatViewModel.idAccount)
         binding.chatRecyclerView.adapter = messageAdapter
     }
 
     private fun observeData() {
-
-        chatViewModel.apply{
-            getContactById(idContact)
-            getConversationByIdContact(idContact)
-        }
+        chatViewModel.getContactById(idContact)
+        chatViewModel.getConversationByIdContact(idContact)
 
         chatViewModel.curContact.observe(viewLifecycleOwner) {
             showContactData(it)
@@ -75,11 +70,6 @@ class ChatFragment : Fragment() {
         chatViewModel.curConversation.observe(viewLifecycleOwner) {
             messageAdapter.submitList(it)
         }
-    }
-
-    private fun setupBottomNav() {
-        bottomNav= requireActivity().findViewById(R.id.bottom_nav)
-        bottomNav.visibility = View.GONE
     }
 
     private fun setupOnclick() {
@@ -101,8 +91,13 @@ class ChatFragment : Fragment() {
                 }
             }
             btnSend.setOnClickListener {
-                val message = Message(0, Keys.MY_ID, idContact, edtMessage.text.toString())
-                chatViewModel.addNewMessage(message)
+                val message = Message(
+                    message = edtMessage.text.toString(),
+                    idSendContact = chatViewModel.idAccount,
+                    idReceiveContact = idContact
+                )
+                Log.d("ChatFragment", "message: $message")
+                chatViewModel.createMessage(message)
                 edtMessage.text?.clear()
             }
         }
@@ -110,12 +105,11 @@ class ChatFragment : Fragment() {
 
     private fun showContactData(contact: Contact) {
         binding.name.text = contact.name
-        Glide.with(binding.root).load(contact.imageId).into(binding.imageAvatar)
+        Glide.with(binding.root).load(contact.avatar).into(binding.imageAvatar)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bottomNav.visibility = View.VISIBLE
         _binding = null
     }
 }

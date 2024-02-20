@@ -1,5 +1,6 @@
-package dev.proptit.messenger.ui.account
+package dev.proptit.messenger.ui.login
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -9,22 +10,23 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.proptit.messenger.R
-import dev.proptit.messenger.api.ApiClient
-import dev.proptit.messenger.api.LoginData
 import dev.proptit.messenger.databinding.FragmentLoginBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import dev.proptit.messenger.setup.Keys
+import dev.proptit.messenger.ui.LoginViewModel
+import dev.proptit.messenger.ui.MainActivity
 
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val loginViewModel: LoginViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -72,31 +74,18 @@ class LoginFragment : Fragment() {
                         )
                         return@setOnClickListener
                     }
-                    handleLogin(username, password)
+                    loginViewModel.handleLogin(username, password, {
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        intent.putExtra(Keys.ID_USER, it)
+                        startActivity(intent)
+                    }, {
+                        binding.tvDescription.text = getString(it.toInt())
+                    })
                 }
             }
         }
     }
 
-    private fun handleLogin(username: String, password: String) {
-        val loginCall : Call<Int> = ApiClient.apiService.login(LoginData( username, password))
-        loginCall.enqueue(object: Callback<Int>{
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                if (response.isSuccessful) {
-                    val result = response.body()
-                    val bundle = Bundle()
-                    bundle.putInt("id", result!!)
-                    findNavController().navigate(R.id.action_loginFragment_to_chatsFragment, bundle)
-                } else {
-                    binding.tvDescription.text = getString(R.string.not_exist_account)
-                }
-            }
-
-            override fun onFailure(call: Call<Int>, t: Throwable) {
-                binding.tvDescription.text = getString(R.string.login_error)
-            }
-        })
-    }
 
     private fun setupTextChangeListener() {
         binding.apply {
@@ -130,10 +119,8 @@ class LoginFragment : Fragment() {
     ) {
         textInputEditText.setHintTextColor(ColorStateList.valueOf(Color.RED))
         textInputLayout.setBackgroundResource(R.drawable.bg_error_rounded_edt)
-        binding.tvDescription.apply {
-            text = description
-            setTextColor(Color.RED)
-        }
+        binding.tvDescription.text = description
+
     }
 
 

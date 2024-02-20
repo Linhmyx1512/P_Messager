@@ -9,7 +9,9 @@ import dev.proptit.messenger.data.contact.Contact
 import dev.proptit.messenger.databinding.ItemOnlineContactBinding
 
 class OnlineContactAdapter(
-    private val contacts: MutableList<Contact>
+    private val contacts: MutableList<Contact>,
+    private val onItemClick: (idContact: Int) -> Unit
+
 ) :
     RecyclerView.Adapter<OnlineContactAdapter.ContactViewHolder>() {
 
@@ -17,8 +19,11 @@ class OnlineContactAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(contact: Contact) {
             binding.apply {
-                Glide.with(binding.root).load(contact.imageId).into(binding.avtContact)
+                Glide.with(binding.root).load(contact.avatar).into(binding.avtContact)
                 nameContact.text = contact.name
+                root.setOnClickListener {
+                    onItemClick(contact.id)
+                }
             }
         }
     }

@@ -14,8 +14,8 @@ import dev.proptit.messenger.R
 import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatsBinding
-import dev.proptit.messenger.ui.MyViewModel
-import dev.proptit.messenger.ui.MyViewModelFactory
+import dev.proptit.messenger.ui.MainViewModel
+import dev.proptit.messenger.ui.MainViewModelFactory
 import dev.proptit.messenger.ui.adapters.ChatsAdapter
 import dev.proptit.messenger.ui.adapters.OnlineContactAdapter
 import kotlinx.coroutines.launch
@@ -26,9 +26,9 @@ class ChatsFragment : Fragment() {
     private lateinit var onlineContactAdapter: OnlineContactAdapter
     private var _binding: FragmentChatsBinding? = null
     private val binding get() = _binding!!
-    private val chatsViewModel: MyViewModel by viewModels(
+    private val chatsViewModel: MainViewModel by viewModels(
         factoryProducer = {
-            MyViewModelFactory(
+            MainViewModelFactory(
                 ContactRepository(),
                 MessageRepository()
             )
@@ -52,14 +52,12 @@ class ChatsFragment : Fragment() {
     private fun observeData() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                chatsViewModel.setupData()
-
                 chatsViewModel.conversationList.observe(viewLifecycleOwner){
                     chatsAdapter.submitList(it.map {chatData ->
                         chatData.first to chatData.second.last()
                     })
                 }
-                chatsViewModel.contactList.observe(viewLifecycleOwner){
+                chatsViewModel.allContactList.observe(viewLifecycleOwner){
                     onlineContactAdapter.submitList(it)
                 }
             }
@@ -81,7 +79,9 @@ class ChatsFragment : Fragment() {
         }
         binding.recyclerView.adapter = chatsAdapter
 
-        onlineContactAdapter = OnlineContactAdapter(mutableListOf())
+        onlineContactAdapter = OnlineContactAdapter(mutableListOf()) {
+            handleOpenChat(it)
+        }
         binding.recyclerViewOlContact.adapter = onlineContactAdapter
     }
 
