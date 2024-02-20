@@ -10,6 +10,9 @@ interface MessageDao {
     @Insert(entity = Message::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMessage(message: Message): Long
 
+    // add list messages
+    @Insert(entity = Message::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addListMessage(messages: List<Message>)
     @Query("SELECT * FROM message WHERE id = :id")
     suspend fun getMessageById(id: Int): Message
 

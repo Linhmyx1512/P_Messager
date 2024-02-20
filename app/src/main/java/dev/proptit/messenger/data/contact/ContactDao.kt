@@ -16,4 +16,7 @@ interface ContactDao {
     @Insert(entity = Contact::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addContact(contact: Contact): Long
 
+    @Insert(entity = Contact::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addListContact(contacts: List<Contact>)
+
 }

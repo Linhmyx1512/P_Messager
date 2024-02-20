@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.activity.ComponentActivity
-import dev.proptit.messenger.R
 import dev.proptit.messenger.databinding.ActivitySplashBinding
 import dev.proptit.messenger.setup.Keys
 import dev.proptit.messenger.ui.MainActivity
@@ -25,8 +24,8 @@ class SplashActivity : ComponentActivity() {
         setContentView(binding.root)
 
         // shared preferences
-        val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-        val idAccount = sharedPreferences.getInt(Keys.ID_MY_ACCOUNT, -1)
+        val sharedPreferences = getSharedPreferences(Keys.KEY_PREFERENCE, Context.MODE_PRIVATE)
+        val idAccount = sharedPreferences.getInt(Keys.ID_USER, -1)
         Log.d("SplashActivity", "idAccount: $idAccount")
 
         // Handler to delay the transition to MainActivity

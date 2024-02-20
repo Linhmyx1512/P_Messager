@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
         var idAccount = intent.getIntExtra(Keys.ID_USER, -1)
 
-        val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(Keys.KEY_PREFERENCE, Context.MODE_PRIVATE)
         if (idAccount != -1) {
             val editor = sharedPreferences.edit()
-            editor.putInt(Keys.ID_MY_ACCOUNT, idAccount)
+            editor.putInt(Keys.ID_USER, idAccount)
             editor.apply()
         } else {
-            idAccount = sharedPreferences.getInt(Keys.ID_MY_ACCOUNT, -1)
+            idAccount = sharedPreferences.getInt(Keys.ID_USER, -1)
         }
 
         mainViewModel.idAccount = idAccount

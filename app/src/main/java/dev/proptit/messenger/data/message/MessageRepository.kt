@@ -13,6 +13,12 @@ class MessageRepository {
         }
     }
 
+    suspend fun addListMessage(messages: List<Message>) {
+        return withContext(Dispatchers.IO) {
+            MyApp.getInstance().database.messageDao().addListMessage(messages)
+        }
+    }
+
     suspend fun getMessageBySendId(idSend: Int): List<Message> {
         return withContext(Dispatchers.IO) {
             MyApp.getInstance().database.messageDao().getMessageBySendId(idSend)

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Messenger</string>
-    <string name="preference_file_key">MyPreferences</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="icon_chats">Chats</string>
     <string name="icon_people">People</string>

@@ -68,12 +68,10 @@ class MainViewModel(
             override fun onResponse(call: Call<List<Contact>>, response: Response<List<Contact>>) {
                 if (response.isSuccessful) {
                     val contacts = response.body()
-                    contacts?.apply {
-                        _allContactList.postValue(this)
-                        forEach {
-                            viewModelScope.launch {
-                                contactRepository.addContact(it)
-                            }
+                    contacts?.let {
+                        _allContactList.postValue(it)
+                        viewModelScope.launch {
+                            contactRepository.addListContact(it)
                         }
                     }
 
@@ -178,9 +176,9 @@ class MainViewModel(
                 ) {
                     if (response.isSuccessful) {
                         val messages = response.body()
-                        messages?.forEach {
+                        messages?.let {
                             viewModelScope.launch {
-                                messageRepository.addMessage(it)
+                                messageRepository.addListMessage(it)
                             }
                         }
                     } else {

@@ -24,4 +24,10 @@ class ContactRepository {
         }
     }
 
+    suspend fun addListContact(contacts: List<Contact>) {
+        return withContext(Dispatchers.IO) {
+            MyApp.getInstance().database.contactDao().addListContact(contacts)
+        }
+    }
+
 }

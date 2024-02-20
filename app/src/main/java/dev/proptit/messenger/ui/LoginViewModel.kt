@@ -1,5 +1,4 @@
 package dev.proptit.messenger.ui
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dev.proptit.messenger.R
 import dev.proptit.messenger.api.ApiClient
@@ -13,7 +12,7 @@ class LoginViewModel : ViewModel() {
 
     private val contactService = ApiClient.contactService
 
-    fun handleLogin(username: String, password: String, onSuccess: (Int) -> Unit, onFailure: (String) -> Unit) {
+    fun handleLogin(username: String, password: String, onSuccess: (Int) -> Unit, onFailure: (Any) -> Unit) {
         val loginCall : Call<Int> = contactService.login(LoginData( username, password))
         loginCall.enqueue(object: Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
@@ -21,12 +20,11 @@ class LoginViewModel : ViewModel() {
                     val result = response.body()
                     onSuccess(result!!)
                 } else {
-                    onFailure(R.string .not_exist_account.toString())
+                    onFailure(R.string.not_exist_account)
                 }
             }
 
             override fun onFailure(call: Call<Int>, t: Throwable) {
-                Log.d("LoginViewModel", t.message.toString())
                 onFailure(t.message.toString())
             }
         })

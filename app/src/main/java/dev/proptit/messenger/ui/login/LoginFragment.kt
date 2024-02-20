@@ -79,7 +79,11 @@ class LoginFragment : Fragment() {
                         intent.putExtra(Keys.ID_USER, it)
                         startActivity(intent)
                     }, {
-                        binding.tvDescription.text = getString(it.toInt())
+                        if (it is Int) {
+                            binding.tvDescription.text = getString(it)
+                        } else if (it is String) {
+                            binding.tvDescription.text = it
+                        }
                     })
                 }
             }
