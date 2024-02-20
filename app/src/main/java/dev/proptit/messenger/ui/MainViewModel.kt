@@ -153,11 +153,14 @@ class MainViewModel(
                     it.idReceiveContact
                 else    // if user is receiver then group by idSend
                     it.idSendContact
-            }.toList() // convert map to list pair
+            }.toList()
+                .sortedByDescending { conversation ->
+                    conversation.second.maxByOrNull { message ->  message.time }?.time
+                }// convert map to list pair
 
             val conversations = mutableListOf<Pair<Contact, List<Message>>>()
 
-            groupMessages.forEach {(idContact, messages)->
+            groupMessages.forEach { (idContact, messages) ->
                 val contact = contactRepository.getContactById(idContact)
                 conversations.add(contact to messages.sortedBy { it.time })
             }
