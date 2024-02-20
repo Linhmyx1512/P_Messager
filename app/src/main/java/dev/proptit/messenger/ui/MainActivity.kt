@@ -35,14 +35,16 @@ class MainActivity : AppCompatActivity() {
 
         // get id account from intent
         val intent = intent
-        val idAccount = intent.getIntExtra(Keys.ID_USER, -1)
+        var idAccount = intent.getIntExtra(Keys.ID_USER, -1)
 
-        // shared preferences
         val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putInt(Keys.ID_MY_ACCOUNT, idAccount)
-        editor.apply()
-
+        if (idAccount != -1) {
+            val editor = sharedPreferences.edit()
+            editor.putInt(Keys.ID_MY_ACCOUNT, idAccount)
+            editor.apply()
+        } else {
+            idAccount = sharedPreferences.getInt(Keys.ID_MY_ACCOUNT, -1)
+        }
 
         mainViewModel.idAccount = idAccount
         navigationView = mainBinding.bottomNav
