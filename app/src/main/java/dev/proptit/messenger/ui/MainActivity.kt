@@ -2,6 +2,7 @@ package dev.proptit.messenger.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             idAccount = sharedPreferences.getInt(Keys.ID_USER, -1)
         }
 
-        mainViewModel.idAccount = idAccount
+        mainViewModel.setIdAccount(idAccount)
+        Log.d("MainViewModel", "init: $idAccount")
         navigationView = mainBinding.bottomNav
         navController = findNavController(R.id.navHostFragment)
         navigationView.setupWithNavController(navController)

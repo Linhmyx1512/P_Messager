@@ -52,6 +52,7 @@ class ChatsFragment : Fragment() {
     private fun observeData() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                chatsViewModel.init()
                 chatsViewModel.conversationList.observe(viewLifecycleOwner){
                     chatsAdapter.submitList(it.map {chatData ->
                         chatData.first to chatData.second.last()

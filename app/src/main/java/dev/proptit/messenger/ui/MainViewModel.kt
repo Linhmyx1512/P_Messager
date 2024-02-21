@@ -1,5 +1,6 @@
 package dev.proptit.messenger.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,9 @@ class MainViewModel(
 ) : ViewModel() {
 
     // idAccount
-    var idAccount = -1
+    private var _idAccount : Int = -1
+    val idAccount: Int
+        get() = _idAccount
 
     //api service
     private val contactService = ApiClient.contactService
@@ -57,10 +60,19 @@ class MainViewModel(
             _allContactList.value = contactRepository.getAllContact()
             fetchAllContact()
         }
+    }
 
-        // load all message
-        fetchMessageFromIdContact()
-        setListConversation()
+    fun init() {
+        viewModelScope.launch {
+            fetchMessageFromIdContact()
+            setListConversation()
+            Log.d("MainViewModel", "init2: $idAccount")
+        }
+    }
+
+    fun setIdAccount(id: Int) {
+        _idAccount = id
+        Log.d("MainViewModel", "init1: $idAccount")
     }
 
     private fun fetchAllContact() {
@@ -154,45 +166,45 @@ class MainViewModel(
                     it.idSendContact
             }.toList()
                 .sortedByDescending { conversation ->
-                    conversation.second.maxByOrNull { message ->  message.time }?.time
+                    conversation.second.maxByOrNull { message -> message.time }?.time
                 }// convert map to list pair
 
             val conversations = mutableListOf<Pair<Contact, List<Message>>>()
 
             groupMessages.forEach { (idContact, messages) ->
                 val contact = contactRepository.getContactById(idContact)
-                conversations.add(contact to messages.sortedBy { it.time })
+                if (contact != null) {
+                    conversations.add(contact to messages.sortedBy { it.time })
+                }
             }
             _conversationList.postValue(conversations)
         }
     }
 
     private fun fetchMessageFromIdContact() {
-        viewModelScope.launch {
-            val getMessageFromIdContactCall = messageService.getMessageFromIdContact(idAccount)
-            getMessageFromIdContactCall.enqueue(object : Callback<List<Message>> {
-                override fun onResponse(
-                    call: Call<List<Message>>,
-                    response: Response<List<Message>>
-                ) {
-                    if (response.isSuccessful) {
-                        val messages = response.body()
-                        messages?.let {
-                            viewModelScope.launch {
-                                messageRepository.addListMessage(it)
-                            }
+        val getMessageFromIdContactCall = messageService.getMessageFromIdContact(idAccount)
+        getMessageFromIdContactCall.enqueue(object : Callback<List<Message>> {
+            override fun onResponse(
+                call: Call<List<Message>>,
+                response: Response<List<Message>>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("MainViewModel", "fetchMessageFromIdContact: ${response.body()}")
+                    val messages = response.body()
+                    messages?.let {
+                        viewModelScope.launch {
+                            messageRepository.addListMessage(it)
                         }
-                    } else {
-                        // handle error
                     }
-                }
-
-                override fun onFailure(call: Call<List<Message>>, t: Throwable) {
+                } else {
                     // handle error
                 }
-            })
-        }
+            }
 
+            override fun onFailure(call: Call<List<Message>>, t: Throwable) {
+                // handle error
+            }
+        })
     }
 }
 

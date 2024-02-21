@@ -18,6 +18,7 @@ class ChatsAdapter(
    inner class ChatViewHolder(private val binding: ItemChatBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(contact: Contact, lastMessage: Message?, onItemClick: (idReceive: Int) -> Unit) {
             binding.apply {
+
                 name.text = contact.name
                 message.text = lastMessage?.message ?: " "
                 time.text = lastMessage?.time.toString()
