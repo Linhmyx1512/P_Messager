@@ -7,17 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import dev.proptit.messenger.R
 import dev.proptit.messenger.data.contact.Contact
-import dev.proptit.messenger.data.contact.ContactRepository
 import dev.proptit.messenger.data.message.Message
-import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatBinding
 import dev.proptit.messenger.ui.MainViewModel
-import dev.proptit.messenger.ui.MainViewModelFactory
 import dev.proptit.messenger.ui.adapters.MessageAdapter
 
 class ChatFragment : Fragment() {
@@ -26,14 +23,7 @@ class ChatFragment : Fragment() {
     private var idContact: Int = -1
     private lateinit var messageAdapter: MessageAdapter
 
-    private val chatViewModel: MainViewModel by viewModels(
-        factoryProducer = {
-            MainViewModelFactory(
-                ContactRepository(),
-                MessageRepository()
-            )
-        }
-    )
+    private val chatViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

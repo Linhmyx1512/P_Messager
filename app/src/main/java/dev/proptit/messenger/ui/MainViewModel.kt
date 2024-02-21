@@ -66,13 +66,11 @@ class MainViewModel(
         viewModelScope.launch {
             fetchMessageFromIdContact()
             setListConversation()
-            Log.d("MainViewModel", "init2: $idAccount")
         }
     }
 
     fun setIdAccount(id: Int) {
         _idAccount = id
-        Log.d("MainViewModel", "init1: $idAccount")
     }
 
     private fun fetchAllContact() {

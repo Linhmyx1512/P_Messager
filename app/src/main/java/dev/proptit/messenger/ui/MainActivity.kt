@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var navigationView: BottomNavigationView
     private lateinit var navController: NavController
-    private val mainViewModel: MainViewModel by viewModels(
+
+    private val mainViewModel: MainViewModel by viewModels (
         factoryProducer = {
             MainViewModelFactory(
                 ContactRepository(),

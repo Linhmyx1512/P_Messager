@@ -5,35 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dev.proptit.messenger.R
-import dev.proptit.messenger.data.contact.ContactRepository
-import dev.proptit.messenger.data.message.MessageRepository
 import dev.proptit.messenger.databinding.FragmentChatsBinding
 import dev.proptit.messenger.ui.MainViewModel
-import dev.proptit.messenger.ui.MainViewModelFactory
 import dev.proptit.messenger.ui.adapters.ChatsAdapter
 import dev.proptit.messenger.ui.adapters.OnlineContactAdapter
 import kotlinx.coroutines.launch
 
 class ChatsFragment : Fragment() {
 
-    private lateinit var chatsAdapter: ChatsAdapter
-    private lateinit var onlineContactAdapter: OnlineContactAdapter
+    private val chatsAdapter: ChatsAdapter by lazy {
+        ChatsAdapter (mutableListOf()){
+            handleOpenChat(it)
+        }
+    }
+
+    private val onlineContactAdapter: OnlineContactAdapter by lazy {
+        OnlineContactAdapter(mutableListOf()) {
+            handleOpenChat(it)
+        }
+    }
     private var _binding: FragmentChatsBinding? = null
     private val binding get() = _binding!!
-    private val chatsViewModel: MainViewModel by viewModels(
-        factoryProducer = {
-            MainViewModelFactory(
-                ContactRepository(),
-                MessageRepository()
-            )
-        }
-    )
+    private val chatsViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +44,9 @@ class ChatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeData()
         setupAdapter()
+        observeData()
+
     }
 
     private fun observeData() {
@@ -75,14 +75,7 @@ class ChatsFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        chatsAdapter = ChatsAdapter (mutableListOf()){
-            handleOpenChat(it)
-        }
         binding.recyclerView.adapter = chatsAdapter
-
-        onlineContactAdapter = OnlineContactAdapter(mutableListOf()) {
-            handleOpenChat(it)
-        }
         binding.recyclerViewOlContact.adapter = onlineContactAdapter
     }
 
