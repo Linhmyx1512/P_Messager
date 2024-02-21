@@ -57,6 +57,7 @@ class MainViewModel(
             _allContactList.value = contactRepository.getAllContact()
             fetchAllContact()
         }
+
         // load all message
         fetchMessageFromIdContact()
         setListConversation()
