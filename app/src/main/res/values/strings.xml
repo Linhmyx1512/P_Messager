@@ -11,6 +11,7 @@
     <string name="password_empty">Please enter your password</string>
     <string name="cf_password_empty">Please Re-enter your password</string>
     <string name="cf_password_error">Please Re-enter the correct password</string>
+    <string name="register_failed">Register failed</string>
     <string name="short_password">This password is too short. Create a longer password with at least 6 letters and numbers.</string>
     <string name="password_description">Create a password with at least 6 letters or numbers. It should be something others can’t guess.</string>
 </resources>

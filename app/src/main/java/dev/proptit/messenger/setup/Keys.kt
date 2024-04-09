@@ -1,6 +1,6 @@
 package dev.proptit.messenger.setup
 
 object Keys {
-    const val ID_USER = "id_user"
-    const val KEY_PREFERENCE = "MyPreferences"
+    const val MY_ACCOUNT_ID  = "my_account_id"
+    const val SHARED_PREF_NAME = "messenger"
 }

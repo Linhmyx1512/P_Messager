@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="dev.proptit.messenger.ui.chats.ChatsFragment"
+        android:name="dev.proptit.messenger.presentation.chats.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chats" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/discoverFragment"
-        android:name="dev.proptit.messenger.ui.discover.DiscoverFragment"
+        android:name="dev.proptit.messenger.presentation.discover.DiscoverFragment"
         android:label="fragment_discover"
         tools:layout="@layout/fragment_discover" />
     <fragment
         android:id="@+id/peopleFragment"
-        android:name="dev.proptit.messenger.ui.people.PeopleFragment"
+        android:name="dev.proptit.messenger.presentation.people.PeopleFragment"
         android:label="fragment_people"
         tools:layout="@layout/fragment_people" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="dev.proptit.messenger.ui.chat.ChatFragment"
+        android:name="dev.proptit.messenger.presentation.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <action

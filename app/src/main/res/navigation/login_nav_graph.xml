@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="dev.proptit.messenger.ui.login.LoginFragment"
+        android:name="dev.proptit.messenger.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="dev.proptit.messenger.ui.login.RegisterFragment"
+        android:name="dev.proptit.messenger.presentation.login.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 </navigation>
