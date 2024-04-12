@@ -1,5 +1,6 @@
 package dev.proptit.messenger.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.proptit.messenger.data.remote.dto.ContactLoginInputDto
@@ -28,16 +29,20 @@ class LoginViewModel @Inject constructor(
                     val id = response.body()
                     if (id != null) {
                         onSuccess(id)
+                        Log.d("LoginViewModel", "onResponse: $id")
                     } else {
                         onError()
+                        Log.d("LoginViewModel", "onResponse: null")
                     }
                 } else {
                     onError()
+                    Log.d("LoginViewModel", "onResponse: error")
                 }
             }
 
             override fun onFailure(call: Call<Int>, t: Throwable) {
                 onError()
+                Log.d("LoginViewModel", "onFailure: $t")
             }
         })
     }
@@ -57,16 +62,20 @@ class LoginViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     val id = response.body()
                     if (id != null) {
+                        Log.d("LoginViewModel", "onResponse: $id")
                         onSuccess(id)
                     } else {
+                        Log.d("LoginViewModel", "onResponse: null")
                         onError()
                     }
                 } else {
+                    Log.d("LoginViewModel", "onResponse: ${response.code()}")
                     onError()
                 }
             }
 
             override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d("LoginViewModel", "onFailure: $t")
                 onError()
             }
         })

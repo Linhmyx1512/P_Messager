@@ -11,10 +11,10 @@ import retrofit2.http.Path
 
 interface ContactService {
 
-    @POST("contact/register")
+    @POST("api/contact/register")
     fun register(@Body data: ContactRegisterInputDto): Call<Int>
 
-    @POST("contact/login")
+    @POST("api/contact/login")
     fun login(@Body data: ContactLoginInputDto): Call<Int>
 
     @GET("api/contact/get_contact_with_user/{idContact}")

@@ -62,8 +62,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
     // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.2.2"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
 
     // call api
     implementation "com.google.code.gson:gson:2.10.1"
